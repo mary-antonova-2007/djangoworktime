@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from worktracker.views import home, register
+from worktracker.views import home, register, add_task
 
 
 urlpatterns = [
@@ -26,5 +26,5 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', register, name='register'),
     path('', home, name='home'),
-
+    path('add_task/', add_task, name='add_task'),
 ]

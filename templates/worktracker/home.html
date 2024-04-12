@@ -1,10 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>Активные задачи</h2>
-<ul>
-    {% for task in active_tasks %}
-    <li>{{ task.task_type }} - {{ task.project.name }}{% if task.product %} - {{ task.product.name }}{% endif %} (Статус: {{ task.get_status_display }})</li>
-    {% endfor %}
-</ul>
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addTaskModal">
+      Добавить задачу
+    </button>
+    <h2>Активные задачи</h2>
+    <ul>
+        {% for task in active_tasks %}
+        <li>{{ task.task_type }} - {{ task.project.name }}{% if task.product %} - {{ task.product.name }}{% endif %} (Статус: {{ task.get_status_display }})</li>
+        {% endfor %}
+    </ul>
+    <!-- Modal -->
+<div class="modal fade" id="addTaskModal" tabindex="-1" role="dialog" aria-labelledby="addTaskModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addTaskModalLabel">Новая задача</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="post" action="{% url 'add_task' %}">{% csrf_token %}
+        <div class="modal-body">
+          <!-- Здесь могут быть поля формы для добавления задачи, например: -->
+          <div class="form-group">
+            <label for="taskName">Название задачи</label>
+            <input type="text" class="form-control" id="taskName" name="taskName" required>
+          </div>
+          <!-- Добавьте дополнительные поля по необходимости -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          <button type="submit" class="btn btn-primary">Добавить задачу</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
